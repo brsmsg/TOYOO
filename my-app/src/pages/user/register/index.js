@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Form, Input, Upload, Select, Button, Card, Tag, Icon, message } from 'antd';
+import { Form, Input,Select, Button, Card} from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
 import styles from './style.less';
 
-const { Search } = Input;
-const { Meta } = Card;
-
 const FormItem = Form.Item;
 const { Option } = Select;
 
-@connect(({ user,global, loading }) => ({
+@connect(({ user }) => ({
     user,
-    global,
-    loading: loading,
 }))
 
 @Form.create()
@@ -79,7 +73,6 @@ export default class Register extends Component {
     render() {
         const {
             form: { getFieldDecorator },
-            global: {prefers},
         } = this.props;
 
         const formItemLayout = {
@@ -161,28 +154,6 @@ export default class Register extends Component {
                             >
                                 <Option value="1">男</Option>
                                 <Option value="0">女</Option>
-                            </Select>
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        {getFieldDecorator('prefer', {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: '请选择你的偏好',
-                                },
-                            ],
-                        })(
-                            <Select
-                                placeholder="请选择偏好"
-                            >
-                                {
-                                    prefers.map((item)=>{
-                                        return(
-                                            <Option value={item.preferID} key={item.preferID}>{item.prefername}</Option>
-                                        );
-                                    })
-                                }
                             </Select>
                         )}
                     </FormItem>

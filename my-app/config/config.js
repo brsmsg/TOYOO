@@ -72,89 +72,33 @@ export default {
   },
   routes: [
     {
-      path: '/user',
-      component: '../layouts/UserLayout',
-      routes: [
-        {
-          name: 'login',
-          path: '/user/login',
-          component: './user/login',
-        },
-        {
-          name: 'register',
-          path: '/user/register',
-          component: './user/register',
-        },
-      ],
+      path: '/', 
+      redirect: '/user/login'
     },
     {
-      path: '/',
-      component: '../layouts/SecurityLayout',
-      routes: [
-        {
-          name:'首页',
-          path: '/HomePage',
-          component: './HomePage/HomePage',
-          authority: ['user'],
-        },
-        {
-          name:'图书详情',
-          path: '/BookDetail',
-          component: './BookDetail/BookDetail',
-          authority: ['user'],
-        },
-        {
-          name:'个人中心',
-          path: '/Setting',
-          component: './Setting/',
-          authority: ['user'],
-        },
-        {
-          path: '/',
-          component: '../layouts/BasicLayout',
-          routes:[
-              {
-                //可以删除或修改普通用户的信息
-                path: '/UserManagement',
-                name: '用户管理',
-                component:'./UserManagement/UserManagement',
-                icon: 'user',
-                //权限控制--只有系统管理员才能看见
-                authority: ['admin'],
-              },
-              {
-                //修改用户信息
-                path: '/UserManagement/updateUser/:user_id',
-                component: './UserManagement/updateUser',
-              },
-              {
-                //实现对图书信息的增删改查
-                path: '/BookManagement',
-                name: '图书管理',
-                component:'./BookManagement/BookManagement',
-                icon: 'book',
-                //权限控制--只有系统管理员才能看见
-                authority: ['admin'],
-  
-              },
-              {
-                //修改图书信息
-                path: '/BookManagement/updateBook/:book_id',
-                component: './BookManagement/updateBook',
-                authority: ['admin'],
-              },
-              {
-                //添加图书信息
-                path: '/BookManagement/addBook',
-                component: './BookManagement/addBook',
-                authority: ['admin'],
-              },
-          ],
-        },
-        {
-          component: './404',
-        },
-      ],
+      name: '登录',
+      path: '/user/login',
+      component: './user/login',
+    },
+    {
+      name: '注册',
+      path: '/user/register',
+      component: './user/register',
+    },
+    {
+      name: '首页',
+      path: '/HomePage',
+      component: './HomePage/HomePage',
+    },
+    {
+      name: '我的世界地图',
+      path: '/MyWorldMap',
+      component: './MyWorldMap/MyWorldMap',
+    },
+    {
+      name: '个人中心',
+      path: '/Setting',
+      component: './Setting/',
     },
     {
       component: './404',

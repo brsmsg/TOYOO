@@ -4,17 +4,8 @@ const GlobalModel = {
   state: {
     collapsed: false,
     notices: [],
-    prefers: [],
   },
   effects: {
-    *fetchPrefers(_,{call, put,}){
-      const response = yield call(getAllPrefers);
-      yield put({
-        type: 'savePrefers',
-        payload: response.res,
-      });
-    },
-    
     *fetchNotices(_, { call, put, select }) {
       const data = yield call(queryNotices);
       yield put({

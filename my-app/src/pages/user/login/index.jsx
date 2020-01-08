@@ -1,154 +1,88 @@
-import { Alert, Checkbox, Icon } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
-import Link from 'umi/link';
-import { connect } from 'dva';
-import LoginComponents from './components/Login';
-import styles from './style.less';
+import { Form, Input, Select, Button, Card } from 'antd';
 import router from 'umi/router';
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginComponents;
+import { connect } from 'dva';
+import styles from './style.less';
 
-class Login extends Component {
-  loginForm = undefined;
-  state = {
-    type: 'account',
-    autoLogin: true,
-  };
+const FormItem = Form.Item;
+const { Option } = Select;
 
-  changeAutoLogin = e => {
-    this.setState({
-      autoLogin: e.target.checked,
-    });
-  };
+@connect(({ login }) => ({
+  login,
+}))
 
-  onClick = () =>{
-    //点击去注册按钮，跳转到注册页面
+@Form.create()
+
+//登录组件
+export default class Login extends Component {
+  componentDidMount() {
+  }
+
+  onClickRegister = () => {
     router.push(`/user/register`);
   }
 
-  handleSubmit = (err, values) => {
-    const { type } = this.state;
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { form, dispatch } = this.props;
 
-    if (!err) {
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'login/login',
-        payload: { ...values, type },
-      });
-    }
-  }
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      const values = {
+        ...fieldsValue,
+      };
 
-  onTabChange = type => {
-    this.setState({
-      type,
+      //跳转路由
+      router.push(`/HomePage`);
     });
   };
-  onGetCaptcha = () =>
-    new Promise((resolve, reject) => {
-      if (!this.loginForm) {
-        return;
-      }
 
-      this.loginForm.validateFields(['mobile'], {}, async (err, values) => {
-        if (err) {
-          reject(err);
-        } else {
-          const { dispatch } = this.props;
-
-          try {
-            const success = await dispatch({
-              type: 'login/getCaptcha',
-              payload: values.mobile,
-            });
-            resolve(!!success);
-          } catch (error) {
-            reject(error);
-          }
-        }
-      });
-    });
-  renderMessage = content => (
-    <Alert
-      style={{
-        marginBottom: 24,
-      }}
-      message={content}
-      type="error"
-      showIcon
-    />
-  );
 
   render() {
-    const { userLogin = {}, submitting } = this.props;
-    const { status, type: loginType } = userLogin;
-    const { type, autoLogin } = this.state;
-    return (
-      <div className={styles.main}>
-        <LoginComponents
-          defaultActiveKey={type}
-          onTabChange={this.onTabChange}
-          onSubmit={this.handleSubmit}
-          onCreate={form => {
-            this.loginForm = form;
-          }}
-        >
-          <Tab
-            key="account"
-            tab={formatMessage({
-              id: 'user-login.login.tab-login-credentials',
-            })}
-          >
-            {status === 'error' &&
-              loginType === 'account' &&
-              !submitting &&
-              this.renderMessage(
-                "账号或密码错误"
-              )}
-            <UserName
-              name="userName"
-              placeholder='请输入邮箱'
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({
-                    id: 'user-login.userName.required',
-                  }),
-                },
-              ]}
-            />
-            <Password
-              name="password"
-              placeholder='请输入密码'
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({
-                    id: 'user-login.password.required',
-                  }),
-                },
-              ]}
-              onPressEnter={e => {
-                e.preventDefault();
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
 
-                if (this.loginForm) {
-                  this.loginForm.validateFields(this.handleSubmit);
+    return (
+      <div className={styles.body}>
+        <div className={styles.main}>
+        <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark style={{paddingTop:'30%',paddingLeft:'10%'}}>
+          <div style={{float:"left",fontSize:27,fontWeight:300,color:"white"}}>账号</div>
+          <FormItem className={styles.formItem}>
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  type: 'email',
+                  message: '这不是有效邮箱',
+                },
+                {
+                  required: true,
+                  message: '请输入你的邮箱',
+                },
+              ],
+            })(<Input style={{width:"70%",height:40,marginLeft:20,fontSize:22}} placeholder="请输入邮箱"/>)}
+          </FormItem>
+          <div style={{float:"left",fontSize:27,fontWeight:300,color:"white"}}>密码</div>
+          <FormItem className={styles.formItem}>
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入你的密码',
                 }
-              }}
-            />
-          </Tab>
-          <div>
-          <a onClick={this.onClick}>没有账号？点击去注册</a>
+              ],
+            })(<Input.Password style={{width:"70%",height:40,marginLeft:20,fontSize:22}} placeholder="请输入密码" />)}
+          </FormItem>
+          <div style={{float:"left",fontSize:18}}>忘记密码？</div>
+          <div style={{fontSize:18}}>新用户点击<a onClick={this.onClickRegister}>注册</a></div>
+          <div style={{ 'textAlign': 'center',marginTop:5 }}>
+            <Button type="primary" onClick={this.handleSubmit}>
+              登录
+            </Button>
           </div>
-          <Submit loading={submitting}>
-            登录悦读
-          </Submit>
-        </LoginComponents>
+        </Form>
+        </div>
       </div>
     );
   }
 }
-
-export default connect(({ login, loading,global}) => ({
-  userLogin: login,
-  submitting: loading.effects['login/login'],
-}))(Login);
