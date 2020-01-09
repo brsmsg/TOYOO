@@ -9,6 +9,7 @@ export default class PlaceAlbum extends Component {
     }
 
     album = () => {
+        
         router.push("/PlaceAlbumDetail")
     }
 
