@@ -1,5 +1,6 @@
 //获取图片，上传图片
-import { queryAlbums } from '@/services/api';
+import { queryAlbums, queryPlaceAlbum } from '@/services/api';
+
 
 const Model = {
   namespace: 'album',
@@ -14,25 +15,8 @@ const Model = {
      * 通过userServie 接口获取用户数据 ，并save进namespace=users的state中,
      * state数据发生改变组件UserList调用render()重新加载。
     */
-
-    // *fetchNotices(_, { call, put, select }) {
-    //   const data = yield call(queryNotices);
-    //   yield put({
-    //     type: 'saveNotices',
-    //     payload: data,
-    //   });
-    //   const unreadCount = yield select(
-    //     state => state.global.notices.filter(item => !item.read).length,
-    //   );
-    //   yield put({
-    //     type: 'user/changeNotifyCount',
-    //     payload: {
-    //       totalCount: data.length,
-    //       unreadCount,
-    //     },
-    //   });
-    // }, 
-
+  
+  
     *fetchAlbum({ payload }, { call, put }) {
       const data = yield call(queryAlbums, payload);   //data 后端返回的数据
       //存入命名空间
@@ -42,6 +26,13 @@ const Model = {
       });
     },
 
+    *fetchPlaceAlbum({ payload}, {call, put}){
+      const data = yield call(queryPlaceAlbum);
+      yield put({
+        type: 'getPlaceAlbum',
+        pyload: data,
+      })
+    }
     
   },
 
@@ -64,8 +55,12 @@ const Model = {
       }
     },
 
-    
-
+    getPlaceAlbum(state, action){
+      return{
+        ...state,
+        albumList: action.payload
+      }
+    }
   }
 }
 

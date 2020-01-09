@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import styles from './PlaceAlbum.less';
 import { Avatar, Progress, Card, Icon, Skeleton,Button } from 'antd';
 import router from 'umi/router';
+import { connect } from 'dva';
+
+@connect(({ user }) => ({
+    user
+}))
 
 export default class PlaceAlbum extends Component {
     back = () => {
@@ -9,7 +14,6 @@ export default class PlaceAlbum extends Component {
     }
 
     album = () => {
-        
         router.push("/PlaceAlbumDetail")
     }
 

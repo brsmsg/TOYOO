@@ -3,7 +3,6 @@ import styles from './HomePage.less';
 import { Avatar, Progress, Card, Icon, Modal, Input, message } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva'
-import UserLayout from '@/layouts/UserLayout';
 
 @connect(({ user }) => ({
     user
@@ -15,7 +14,7 @@ export default class HomePage extends Component {
 
         dispatch({
             type: 'user/fetchUser',
-            payload: {
+            payload: {  
                 user_id: 1
             }
         });
@@ -51,7 +50,6 @@ export default class HomePage extends Component {
     album = () => {
         router.push('/Album')
     }
-
 
 
     render() {
