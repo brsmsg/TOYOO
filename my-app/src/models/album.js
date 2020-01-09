@@ -1,5 +1,6 @@
 //获取图片，上传图片
-import { queryAlbums } from '@/services/api';
+import { queryAlbums, queryPlaceAlbum } from '@/services/api';
+
 
 const Model = {
   namespace: 'album',
@@ -15,23 +16,6 @@ const Model = {
      * state数据发生改变组件UserList调用render()重新加载。
     */
 
-    // *fetchNotices(_, { call, put, select }) {
-    //   const data = yield call(queryNotices);
-    //   yield put({
-    //     type: 'saveNotices',
-    //     payload: data,
-    //   });
-    //   const unreadCount = yield select(
-    //     state => state.global.notices.filter(item => !item.read).length,
-    //   );
-    //   yield put({
-    //     type: 'user/changeNotifyCount',
-    //     payload: {
-    //       totalCount: data.length,
-    //       unreadCount,
-    //     },
-    //   });
-    // }, 
 
     *fetchAlbum({ payload }, { call, put }) {
       const data = yield call(queryAlbums, payload);   //data 后端返回的数据
@@ -42,7 +26,14 @@ const Model = {
       });
     },
 
-    
+    *fetchPlaceAlbum({ payload }, { call, put }) {
+      const data = yield call(queryPlaceAlbum);
+      yield put({
+        type: 'getPlaceAlbum',
+        payload: data,
+      })
+    }
+
   },
 
   //action 处理器，处理同步操作，根据action对state进行更新
@@ -64,8 +55,12 @@ const Model = {
       }
     },
 
-    
-
+    getPlaceAlbum(state, action) {
+      return {
+        ...state,
+        albumList: action.payload
+      }
+    }
   }
 }
 

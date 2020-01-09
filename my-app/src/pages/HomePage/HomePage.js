@@ -74,7 +74,6 @@ export default class HomePage extends Component {
     }
 
 
-
     render() {
         const { user: { currentUser } } = this.props;
         const distance_percent = currentUser.current_distance / currentUser.distance * 100

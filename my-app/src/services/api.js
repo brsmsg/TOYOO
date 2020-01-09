@@ -179,7 +179,53 @@ export async function queryAlbums(params){
       },
       {
         url: "http://121.199.21.183:8080/upload/3.jpg"
-      }
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/4.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/5.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/6.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/7.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/8.jpg"
+      },
+  ]
+  )
+}
+
+export async function queryPlaceAlbum(params){
+  return(
+    [
+      {
+        url: "http://121.199.21.183:8080/upload/1.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/2.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/3.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/4.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/5.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/6.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/7.jpg"
+      },
+      {
+        url: "http://121.199.21.183:8080/upload/8.jpg"
+      },
   ]
   )
 }
