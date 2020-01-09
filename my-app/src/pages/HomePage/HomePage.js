@@ -3,25 +3,32 @@ import styles from './HomePage.less';
 import { Avatar, Progress, Card, Icon, Modal, Input, message } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva'
-import UserLayout from '@/layouts/UserLayout';
 
-@connect(({ user }) => ({
-    user
+@connect(({ user,trip }) => ({
+    user,
+    trip
 }))
 
 export default class HomePage extends Component {
     componentDidMount() {
-        const { dispatch } = this.props;
+        // const { dispatch } = this.props;
 
-        dispatch({
-            type: 'user/fetchUser',
-            payload: {
-                user_id: 1
-            }
-        });
+        // dispatch({
+        //     type: 'user/fetchUser',
+        //     payload: {
+        //         user_id: 1
+        //     }
+        // });
     }
 
-    state = { visible: false };
+    state = { visible: false,input_value:"" };
+
+    //输入框内的值发生变化时，修改input_value的值
+    onChange = (e) => {
+        this.setState({
+            input_value:e.target.value,
+        })
+    }
 
     showModal = () => {
         this.setState({
@@ -30,21 +37,35 @@ export default class HomePage extends Component {
     };
 
     handleOk = e => {
-        message.success("添加成功！快去相册上传图片吧！");
-        console.log(e);
+        const {dispatch} = this.props;
+        dispatch({
+            type:'trip/addTrip',
+            payload:{
+                destination:this.state.input_value,
+            }
+        })
+        //点击添加行程
         this.setState({
             visible: false,
         });
     };
 
     handleCancel = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     };
 
     map = () => {
+        //进行页面跳转之前，获取最近行程的相关数据
+        const {dispatch,user:{currentUser}} = this.props;
+
+        dispatch({
+            type:'trip/getRecentTrip',
+            payload:{
+              user_id:currentUser.user_id,
+            }
+        })
         router.push('/MyWorldMap')
     }
 
@@ -131,7 +152,7 @@ export default class HomePage extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <Input placeholder="城市名" />
+                    <Input placeholder="城市名" onChange={(e)=>{this.onChange(e)}}/>
                 </Modal>
             </div>
         )

@@ -7,8 +7,8 @@ import styles from './style.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-@connect(({ login }) => ({
-  login,
+@connect(({ user }) => ({
+  user,
 }))
 
 @Form.create()
@@ -22,6 +22,7 @@ export default class Login extends Component {
     router.push(`/user/register`);
   }
 
+  //提交登录
   handleSubmit = (e) => {
     e.preventDefault();
     const { form, dispatch } = this.props;
@@ -32,8 +33,13 @@ export default class Login extends Component {
         ...fieldsValue,
       };
 
-      //跳转路由
-      router.push(`/HomePage`);
+      dispatch({
+        type:'user/login',
+        payload:{
+          email:values.email,
+          password:values.password,
+        }
+      });
     });
   };
 

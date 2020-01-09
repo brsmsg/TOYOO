@@ -5,12 +5,17 @@ import { connect } from 'dva';
 import styles from './MyWorldMap.less';
 import { Input, Modal, Button, Avatar, Icon, message } from 'antd';
 
-@connect(({ }) => ({
-
+@connect(({ user,trip }) => ({
+  user,
+  trip
 }))
 
 export default class MyWorldMap extends Component {
-  state = { visible: false,attention_visible:false };
+  state = { 
+    visible: false,
+    attention_visible:false,
+    placeList:[],
+  };
 
   showModal = () => {
     this.setState({
@@ -56,31 +61,35 @@ export default class MyWorldMap extends Component {
   };
 
   componentDidMount() {
+    const {trip:{tripInfo},dispatch} = this.props;
+
     //行程中照片集对应的gps经纬度
-    const points = [
-      {
-        longitude: 113.7,
-        latitude: 30,
-        url: "http://121.199.21.183:8080/upload/2.jpg",
-      },
-      {
-        longitude: 114,
-        latitude: 30,
-        url: "http://121.199.21.183:8080/upload/3.jpg",
-      },
-      {
-        longitude: 115,
-        latitude: 31,
-        url: "http://121.199.21.183:8080/upload/4.jpg",
-      },
-      {
-        longitude: 114.7,
-        latitude: 31,
-        url: "http://121.199.21.183:8080/upload/1.jpg",
-      },
-    ];
+    const points = tripInfo.photoList;
+    // const points = [
+    //   {
+    //     longitude: 113.7,
+    //     latitude: 30,
+    //     url: "http://121.199.21.183:8080/upload/2.jpg",
+    //   },
+    //   {
+    //     longitude: 114,
+    //     latitude: 30,
+    //     url: "http://121.199.21.183:8080/upload/3.jpg",
+    //   },
+    //   {
+    //     longitude: 115,
+    //     latitude: 31,
+    //     url: "http://121.199.21.183:8080/upload/4.jpg",
+    //   },
+    //   {
+    //     longitude: 114.7,
+    //     latitude: 31,
+    //     url: "http://121.199.21.183:8080/upload/1.jpg",
+    //   },
+    // ];
 
     const { BMap, BMAP_STATUS_SUCCESS } = window
+    const placeList=[];
     //批量逆地址解析----根据精度和维度获取城市名称
     // 百度地图API功能
     var map = new BMap.Map("allmap");
@@ -88,12 +97,14 @@ export default class MyWorldMap extends Component {
     map.enableScrollWheelZoom(true);
     var index = 0;
     var myGeo = new BMap.Geocoder();
-    var adds = [
-      new BMap.Point(points[0].longitude, points[0].latitude),
-      new BMap.Point(points[1].longitude, points[1].latitude),
-      new BMap.Point(points[2].longitude, points[2].latitude),
-      new BMap.Point(points[3].longitude, points[3].latitude)
-    ];
+    var adds=[];
+    var i = 0;
+    for(i = 0;i<points.length;i++)
+    {
+      var item = new BMap.Point(points[i].longitude, points[i].latitude);
+      adds.push(item);
+    }
+    
     for (var i = 0; i < adds.length; i++) {
       var marker = new BMap.Marker(adds[i]);
       map.addOverlay(marker);
@@ -109,8 +120,8 @@ export default class MyWorldMap extends Component {
       }
 
       myGeo.getLocation(pt, function (rs) {
-        var addComp = rs.addressComponents;
         console.log(rs.addressComponents); //city城市 district县级
+        placeList.push(rs.addressComponents);
       });
 
       mylabel.setStyle({
@@ -125,7 +136,11 @@ export default class MyWorldMap extends Component {
       //label添加点击事件
       mylabel.addEventListener("click", function () {
         //点击label跳转到相应地点的相册
-        console.log("点击label图片啦")
+        //点击图片，保存place地名到仓库place_record
+        // dispatch({
+        //   type:'trip/savePlaceRecord',
+        //   payload:placeList[1].city,
+        // })
         router.push(`/PlaceAlbum`);
       });
       marker.setLabel(mylabel);
@@ -184,6 +199,7 @@ export default class MyWorldMap extends Component {
   }
 
   render() {
+    const {trip:{tripInfo}} = this.props;
     return (
       <div>
         <div id="allmap" style={{ position: "absolute", width: "100%", height: "100%" }}></div>
@@ -192,11 +208,14 @@ export default class MyWorldMap extends Component {
             <Button type="link" onClick={(e) => { this.showModal(e) }}>
               <Avatar style={{ backgroundColor: 'rgba(236,225,223,0.75)', width: 60, height: 60, margin: 10 }} src="http://121.199.21.183:8080/upload/plus.png" />
             </Button>
-            <Avatar style={{ width: 60, height: 60, margin: 10 }} src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=612723378,2699755568&fm=111&gp=0.jpg" />
-            <Avatar style={{ width: 60, height: 60, margin: 10 }} src="https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=378824344,1185609431&fm=26&gp=0.jpg" />
-            <Avatar style={{ width: 60, height: 60, margin: 10 }} src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=807400438,1244204492&fm=111&gp=0.jpg" />
-            <Avatar style={{ width: 60, height: 60, margin: 10 }} src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578560114173&di=01ce80031477c40e7758bee4c7fd6c68&imgtype=0&src=http%3A%2F%2Fpic1.zhimg.com%2F50%2Fv2-d5d077f05fdaadf654ab43c85ccd7db2_hd.jpg" />
-            <div>
+            {
+              tripInfo.userList.map((item)=>{
+                return(
+                  <Avatar style={{ width: 60, height: 60, margin: 10 }} src={item.avatar} />
+                )
+              })
+            }
+           <div>
               <Modal
                 title="请输入新成员的邮箱"
                 visible={this.state.visible}
@@ -215,9 +234,13 @@ export default class MyWorldMap extends Component {
         </div>
         <div className={styles.attention}>
             <div style={{color:"white",fontSize:18,  borderBottom:"solid 1px white",paddingBottom:8}}>今日事项</div>
-            <div className={styles.attentionItem}>南方天气比较冷，带点厚衣服</div>
-            <div className={styles.attentionItem}>南方天气比较冷，带点厚衣服</div>
-            <div className={styles.attentionItem}>南方天气比较冷，带点厚衣服</div>
+            {
+              tripInfo.attentionList.map((item)=>{
+                return(
+                  <div className={styles.attentionItem}>{item.content}</div>
+                )
+              })
+            }
             <Icon style={{ fontSize: '25px', color: '#fff',float:"left",paddingLeft:"10%",paddingTop:"5%" }} type="plus-circle" onClick={this.addAttention}/>
         </div>
         <Modal

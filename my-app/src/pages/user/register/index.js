@@ -37,13 +37,10 @@ export default class Register extends Component {
                 ...fieldsValue,
             };
 
-            // dispatch({
-            //     type: 'user/register',
-            //     payload: values,
-            // });
-
-            //跳转路由
-            router.push(`/user/login`);
+            dispatch({
+                type: 'user/register',
+                payload: values,
+            });
         });
     };
 
