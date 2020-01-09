@@ -15,8 +15,8 @@ const Model = {
      * 通过userServie 接口获取用户数据 ，并save进namespace=users的state中,
      * state数据发生改变组件UserList调用render()重新加载。
     */
-  
-  
+
+
     *fetchAlbum({ payload }, { call, put }) {
       const data = yield call(queryAlbums, payload);   //data 后端返回的数据
       //存入命名空间
@@ -26,14 +26,14 @@ const Model = {
       });
     },
 
-    *fetchPlaceAlbum({ payload}, {call, put}){
+    *fetchPlaceAlbum({ payload }, { call, put }) {
       const data = yield call(queryPlaceAlbum);
       yield put({
         type: 'getPlaceAlbum',
-        pyload: data,
+        payload: data,
       })
     }
-    
+
   },
 
   //action 处理器，处理同步操作，根据action对state进行更新
@@ -55,8 +55,8 @@ const Model = {
       }
     },
 
-    getPlaceAlbum(state, action){
-      return{
+    getPlaceAlbum(state, action) {
+      return {
         ...state,
         albumList: action.payload
       }

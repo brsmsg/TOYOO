@@ -14,7 +14,7 @@ export default class PlaceAlbumDetail extends Component {
         const { dispatch } = this.props;
 
         dispatch({
-            type: 'album/fetchAlbum',
+            type: 'album/fetchPlaceAlbum',
             payload: {
                 user_id: 1,
                 shoot_place: "wuhan",
@@ -44,7 +44,7 @@ export default class PlaceAlbumDetail extends Component {
                     <div style={{ marginLeft: 30, marginTop: 30, float: "left" }}>
                         <div>
                             {
-                                albumList.map((item, i) => {
+                                (albumList||[]).map((item, i) => {
                                     if (i <= 3) {
                                         return (
                                             <img className={styles.image} src={item.url} />
@@ -57,7 +57,7 @@ export default class PlaceAlbumDetail extends Component {
                     <div style={{ marginLeft: 30, marginTop: 30, float: "left" }}>
                         <div>
                             {
-                                albumList.map((item, i) => {
+                                (albumList||[]).map((item, i) => {
                                     if (i > 3 && i <= 7) {
                                         return (
                                             <img className={styles.image} src={item.url} />
@@ -67,7 +67,7 @@ export default class PlaceAlbumDetail extends Component {
                             }
                         </div>
                     </div>
-                    <div style={{ marginTop:"22%" }}>
+                    <div style={{ marginTop: "22%" }}>
                         <img src="http://121.199.21.183:8080/upload/about.png" />
                         <Card className={styles.card}>
                             <p style={{ color: "white", fontSize: 20 }}>
