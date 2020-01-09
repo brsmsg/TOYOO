@@ -10,7 +10,7 @@ import { Input, Modal, Button, Avatar, Icon, message } from 'antd';
 }))
 
 export default class MyWorldMap extends Component {
-  state = { visible: false };
+  state = { visible: false,attention_visible:false };
 
   showModal = () => {
     this.setState({
@@ -33,14 +33,31 @@ export default class MyWorldMap extends Component {
     });
   };
 
+  //添加注意事项
+  addAttention = () => {
+    this.setState({
+      attention_visible: true,
+    });
+  }
+
+  //点击确认添加注意事项
+  onClickOk = e => {
+    message.success("添加成功！");
+    this.setState({
+      attention_visible: false,
+    });
+  };
+
+
+  onClickCancel = e => {
+    this.setState({
+      attention_visible: false,
+    });
+  };
+
   componentDidMount() {
     //行程中照片集对应的gps经纬度
     const points = [
-      {
-        longitude: 114.7,
-        latitude: 31,
-        url: "http://121.199.21.183:8080/upload/1.jpg",
-      },
       {
         longitude: 113.7,
         latitude: 30,
@@ -55,6 +72,11 @@ export default class MyWorldMap extends Component {
         longitude: 115,
         latitude: 31,
         url: "http://121.199.21.183:8080/upload/4.jpg",
+      },
+      {
+        longitude: 114.7,
+        latitude: 31,
+        url: "http://121.199.21.183:8080/upload/1.jpg",
       },
     ];
 
@@ -108,6 +130,52 @@ export default class MyWorldMap extends Component {
       });
       marker.setLabel(mylabel);
     }
+
+      //调用函数，求所有点的中间点
+      var mid=this.getMid(points);
+
+      //调用百度地图api绘制带方向的路径
+      map.centerAndZoom(new BMap.Point(mid.x,mid.y), 10);  // 初始化地图,设置中心点坐标和地图级别
+      map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+      var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
+        scale: 0.6,//图标缩放大小
+        strokeColor:'#fff',//设置矢量图标的线填充颜色
+        strokeWeight: '2',//设置线宽
+      });
+      var icons = new BMap.IconSequence(sy, '10', '30');
+      // 创建polyline对象 利用之前定好的图片经纬度位置的数组
+      var polyline =new BMap.Polyline(adds, {
+        enableEditing: false,//是否启用线编辑，默认为false
+        enableClicking: true,//是否响应点击事件，默认为true
+        icons:[icons],
+        strokeWeight:'8',//折线的宽度，以像素为单位
+        strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
+        strokeColor:"#FF1111" //折线颜色
+      });
+      
+      map.addOverlay(polyline);          //增加折线
+
+  }
+
+
+  //求给定点数组的中间点坐标
+  getMid(points)
+  {
+    var i = 0;
+    var mid={
+      x:0,
+      y:0
+    }
+    for(i=0;i<points.length;i++)
+    {
+      mid.x = mid.x+points[i].longitude;
+      mid.y = mid.y+points[i].latitude;
+    }
+
+    mid.x=mid.x/points.length;
+    mid.y=mid.y/points.length;
+
+    return mid;
   }
 
   goHomePage = () => {
@@ -145,6 +213,21 @@ export default class MyWorldMap extends Component {
               <Avatar style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: 60, height: 60, margin: 10 }} src="http://121.199.21.183:8080/upload/back.png" />
             </Button>
         </div>
+        <div className={styles.attention}>
+            <div style={{color:"white",fontSize:18,  borderBottom:"solid 1px white",paddingBottom:8}}>今日事项</div>
+            <div className={styles.attentionItem}>南方天气比较冷，带点厚衣服</div>
+            <div className={styles.attentionItem}>南方天气比较冷，带点厚衣服</div>
+            <div className={styles.attentionItem}>南方天气比较冷，带点厚衣服</div>
+            <Icon style={{ fontSize: '25px', color: '#fff',float:"left",paddingLeft:"10%",paddingTop:"5%" }} type="plus-circle" onClick={this.addAttention}/>
+        </div>
+        <Modal
+                title="请输入添加的注意事项"
+                visible={this.state.attention_visible}
+                onOk={this.onClickOk}
+                onCancel={this.onClickCancel}
+              >
+                <Input placeholder="请输入添加的注意事项"/>
+              </Modal>
       </div>
     );
   }
