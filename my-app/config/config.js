@@ -106,6 +106,11 @@ export default {
       component: './PlaceAlbum/PlaceAlbum',
     },
     {
+      name: '地图相册细节',
+      path: '/PlaceAlbumDetail',
+      component: './PlaceAlbumDetail/PlaceAlbumDetail',
+    },
+    {
       name: '个人中心',
       path: '/Setting',
       component: './Setting/',
