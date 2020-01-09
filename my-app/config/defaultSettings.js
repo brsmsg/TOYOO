@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '悦读',
+  title: 'TOYOO',
   pwa: false,
   iconfontUrl: '',
 };

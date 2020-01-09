@@ -46,9 +46,9 @@ export default class Login extends Component {
     return (
       <div className={styles.body}>
         <div className={styles.main}>
-        <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark style={{paddingTop:'30%',paddingLeft:'10%'}}>
-          <div style={{float:"left",fontSize:27,fontWeight:300,color:"white"}}>账号</div>
-          <FormItem className={styles.formItem}>
+        <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark style={{paddingTop:'35%',paddingLeft:'10%'}}>
+          <div style={{float:"left",fontSize:22,fontWeight:300,color:"white"}}>账号</div>
+          <FormItem style={{margin:"0 auto",marginBottom:40}}>
             {getFieldDecorator('email', {
               rules: [
                 {
@@ -60,10 +60,10 @@ export default class Login extends Component {
                   message: '请输入你的邮箱',
                 },
               ],
-            })(<Input style={{width:"70%",height:40,marginLeft:20,fontSize:22}} placeholder="请输入邮箱"/>)}
+            })(<Input style={{width:"70%",height:35,marginLeft:30}} placeholder="请输入邮箱"/>)}
           </FormItem>
-          <div style={{float:"left",fontSize:27,fontWeight:300,color:"white"}}>密码</div>
-          <FormItem className={styles.formItem}>
+          <div style={{float:"left",fontSize:22,fontWeight:300,color:"white"}}>密码</div>
+          <FormItem>
             {getFieldDecorator('password', {
               rules: [
                 {
@@ -71,12 +71,12 @@ export default class Login extends Component {
                   message: '请输入你的密码',
                 }
               ],
-            })(<Input.Password style={{width:"70%",height:40,marginLeft:20,fontSize:22}} placeholder="请输入密码" />)}
+            })(<Input.Password style={{width:"70%",height:35,marginLeft:30,fontSize:18}} placeholder="请输入密码" />)}
           </FormItem>
-          <div style={{float:"left",fontSize:18}}>忘记密码？</div>
-          <div style={{fontSize:18}}>新用户点击<a onClick={this.onClickRegister}>注册</a></div>
-          <div style={{ 'textAlign': 'center',marginTop:5 }}>
-            <Button type="primary" onClick={this.handleSubmit}>
+          <div style={{float:"left",color:"white"}}>忘记密码？</div>
+          <div style={{color:"white",paddingLeft:"63%"}}>新用户点击<a onClick={this.onClickRegister}>注册</a></div>
+          <div style={{ 'textAlign': 'center',marginTop:10 }}>
+            <Button onClick={this.handleSubmit} className={styles.button}>
               登录
             </Button>
           </div>

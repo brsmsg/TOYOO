@@ -96,6 +96,16 @@ export default {
       component: './MyWorldMap/MyWorldMap',
     },
     {
+      name: '我的相册',
+      path: '/Album',
+      component: './Album/Album',
+    },
+    {
+      name: '地图相册',
+      path: '/PlaceAlbum',
+      component: './PlaceAlbum/PlaceAlbum',
+    },
+    {
       name: '个人中心',
       path: '/Setting',
       component: './Setting/',

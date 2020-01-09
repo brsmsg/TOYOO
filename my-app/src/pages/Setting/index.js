@@ -137,7 +137,7 @@ export default class Setting extends Component {
                 <div className={styles.header}>
                     <Link to="/">
                         <img alt="logo" className={styles.logo} src={logo} />
-                        <span className={styles.title}>悦读</span>
+                        <span className={styles.title}>TOYOO</span>
                     </Link>
                     <Link to='/Setting'>
                         <div style={{ float: "right", marginRight: 10, marginLeft: 5 }}>{currentUser.name}</div>
