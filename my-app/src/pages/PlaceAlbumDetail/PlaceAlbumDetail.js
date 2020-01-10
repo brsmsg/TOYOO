@@ -4,20 +4,21 @@ import router from 'umi/router'
 import { Button, Avatar, Card } from 'antd'
 import { connect } from 'dva'
 
-@connect(({ album, user }) => ({
+@connect(({ album, user,trip }) => ({
     album,
     user,
+    trip
 }))
 
 export default class PlaceAlbumDetail extends Component {
     componentDidMount() {
-        const { dispatch } = this.props;
+        const { dispatch, user:{user_record}, trip:{place_record}} = this.props;
 
         dispatch({
             type: 'album/fetchPlaceAlbum',
             payload: {
-                user_id: 1,
-                shoot_place: "wuhan",
+                user_id: user_record.user_id,
+                shoot_place: place_record,
             }
         });
 
@@ -31,7 +32,7 @@ export default class PlaceAlbumDetail extends Component {
     }
 
     render() {
-        const { album: { albumList }, user: { currentUser } } = this.props;
+        const { album: { albumList }, user: { user_record,currentUser } } = this.props;
         return (
             <div className={styles.body}>
                 <div style={{ marginLeft: 100 }}>
@@ -39,7 +40,7 @@ export default class PlaceAlbumDetail extends Component {
                         <Avatar style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: 60, height: 60, margin: 10 }} src="http://121.199.21.183:8080/upload/back.png" />
                     </Button>
                     <div style={{ marginTop: 30, marginLeft: 30, fontSize: 50, color: "white" }}>
-                        {currentUser.nick_name}'S TRIP
+                        {user_record.nick_name}'S TRIP
                     </div>
                     <div style={{ marginLeft: 30, marginTop: 30, float: "left" }}>
                         <div>

@@ -5,7 +5,8 @@ import router from 'umi/router';
 const Model = {
     namespace: 'user',
     state: {
-        currentUser: {}
+        currentUser: {},
+        user_record: {},
     },
 
     effects: {
@@ -49,6 +50,15 @@ const Model = {
             else{
                 message.error("注册失败！");
             }
+        },
+
+        //存用户记录信息
+        *savePlaceUserId({payload}, {put}){
+            console.log(payload);
+            yield put({
+                type: 'addPlaceUserId',    
+                payload:payload.userInfo,
+            });
         }
     },
 
@@ -63,6 +73,12 @@ const Model = {
             return{
                 ...state,
                 currentUser:action.payload,
+            }
+        },
+        addPlaceUserId(state, action){
+            return{
+                ...state,
+                user_record: action.payload,
             }
         }
     },

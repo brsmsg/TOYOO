@@ -10,7 +10,7 @@ const Model = {
             userList:[],
             attentionList:[],
         },
-        place_record:"",
+        place_record:"黄石",
     },
 
     effects: {
