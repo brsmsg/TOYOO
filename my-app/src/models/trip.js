@@ -38,6 +38,22 @@ const Model = {
                 type:'savePlaceRecord',
                 payload:payload
             })
+        },
+        *saveAttention({payload},{put}){
+            //添加新的注意事项
+            yield put({
+                type:'addAttention',
+                payload:payload
+            })
+            message.success("添加成功！");
+        },
+        *saveUser({payload},{put}){
+            //添加新的成员
+            yield put({
+                type:'addUser',
+                payload:payload
+            })
+            message.success("添加成功！");
         }
     },
 
@@ -53,7 +69,47 @@ const Model = {
                 ...state,
                 place_record: action.payload,
             }
-        } 
+        },
+        addAttention(state,action){
+            var newList=[];
+            var i = 0;
+            for(i = 0; i<state.tripInfo.attentionList.length;i++)
+            {
+                newList.push(state.tripInfo.attentionList[i]);
+            }
+            newList.push(action.payload);
+            console.log(newList);
+            return{
+                ...state,
+                tripInfo:{
+                    photoList:state.tripInfo.photoList,
+                    userList:state.tripInfo.userList,
+                    attentionList:newList,
+                },
+            }
+        },
+        addUser(state,action){
+            var newList=[];
+            var i = 0;
+            for(i = 0; i<state.tripInfo.userList.length;i++)
+            {
+                newList.push(state.tripInfo.userList[i]);
+            }
+            const newUser={
+                user_id:6,
+                nick_name:"HEIXIAONIU",
+                avatar:"http://www.vtiantai.net/wp-content/uploads/2019/03/54064f5c9191ef2-5.jpg",
+            };
+            newList.push(newUser);
+            return{
+                ...state,
+                tripInfo:{
+                    photoList:state.tripInfo.photoList,
+                    attentionList:state.tripInfo.attentionList,
+                    userList:newList,
+                },
+            }
+        }
     },
 
 }

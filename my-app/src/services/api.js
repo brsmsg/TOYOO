@@ -135,7 +135,7 @@ export async function getRecentTrip(params){
       {
         user_id:4,
         nick_name:"huangjiarong",
-        avatar:"https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=807400438,1244204492&fm=111&gp=0.jpg",
+        avatar:"http://www.diyimei.net/upload/2018/1537192515751749.jpg",
       },
       {
         user_id:5,

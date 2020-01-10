@@ -15,6 +15,8 @@ export default class MyWorldMap extends Component {
     visible: false,
     attention_visible:false,
     placeList:[],
+    attention_input_value:"",
+    user_input_value:"",
   };
 
   showModal = () => {
@@ -23,9 +25,30 @@ export default class MyWorldMap extends Component {
     });
   };
 
+  //输入框内的值发生变化时，修改attention_input_value的值
+  onChangeAttention = (e) => {
+      this.setState({
+        attention_input_value:e.target.value,
+    })
+  }
+
+  //输入框内的值发生变化时，修改user_input_value的值
+  onChangeUser = (e) => {
+      this.setState({
+        user_input_value:e.target.value,
+    })
+  }
+
   handleOk = e => {
-    message.success("添加成功！");
-    console.log(e);
+    //添加新的成员
+    const {dispatch} = this.props;
+    dispatch({
+        type:'trip/saveUser',
+        payload:{
+          content:this.state.user_input_value,
+        }
+    })
+    //点击添加注意事项
     this.setState({
       visible: false,
     });
@@ -47,14 +70,22 @@ export default class MyWorldMap extends Component {
 
   //点击确认添加注意事项
   onClickOk = e => {
-    message.success("添加成功！");
+    console.log("添加");
+    const {dispatch} = this.props;
+    dispatch({
+        type:'trip/saveAttention',
+        payload:{
+          content:this.state.attention_input_value,
+        }
+    })
+    //点击添加注意事项
     this.setState({
       attention_visible: false,
     });
-  };
+};
 
 
-  onClickCancel = e => {
+  onClickCancel = (e) => {
     this.setState({
       attention_visible: false,
     });
@@ -65,28 +96,6 @@ export default class MyWorldMap extends Component {
 
     //行程中照片集对应的gps经纬度
     const points = tripInfo.photoList;
-    // const points = [
-    //   {
-    //     longitude: 113.7,
-    //     latitude: 30,
-    //     url: "http://121.199.21.183:8080/upload/2.jpg",
-    //   },
-    //   {
-    //     longitude: 114,
-    //     latitude: 30,
-    //     url: "http://121.199.21.183:8080/upload/3.jpg",
-    //   },
-    //   {
-    //     longitude: 115,
-    //     latitude: 31,
-    //     url: "http://121.199.21.183:8080/upload/4.jpg",
-    //   },
-    //   {
-    //     longitude: 114.7,
-    //     latitude: 31,
-    //     url: "http://121.199.21.183:8080/upload/1.jpg",
-    //   },
-    // ];
 
     const { BMap, BMAP_STATUS_SUCCESS } = window
     const placeList=[];
@@ -222,7 +231,7 @@ export default class MyWorldMap extends Component {
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
               >
-                <Input placeholder="请输入该成员的邮箱"/>
+                <Input onChange={(e)=>{this.onChangeUser(e)}} placeholder="请输入该成员的邮箱"/>
               </Modal>
             </div>
           </div>
@@ -249,7 +258,7 @@ export default class MyWorldMap extends Component {
                 onOk={this.onClickOk}
                 onCancel={this.onClickCancel}
               >
-                <Input placeholder="请输入添加的注意事项"/>
+                <Input onChange={(e)=>{this.onChangeAttention(e)}} placeholder="请输入添加的注意事项"/>
               </Modal>
       </div>
     );

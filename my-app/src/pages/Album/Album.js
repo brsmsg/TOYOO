@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styles from './Album.less';
-import router from 'umi/router';
 import {connect} from 'dva'
 import { Timeline, Avatar, Upload, Button, Icon, message } from 'antd';
+import Uploader from './Uploader';
 
 //命名空间转换
 @connect(({ album, }) => ({
@@ -23,24 +23,11 @@ export default class Album extends Component {
 
     render() {
         const{album:{albumList}}=this.props;
-        console.log(albumList)
-        // const a12=[
-        //     {
-        //       url: "http://121.199.21.183:8080/upload/1.jpg"
-        //     },
-        //     {
-        //       url: "http://121.199.21.183:8080/upload/2.jpg"
-        //     }
 
-        // ]
         return (
             <div className={styles.body}>
                 <div className={styles.upload}>
-                    {/* <Upload {...props}>
-                        <Button size="large">
-                            <Icon type="upload" /> Click to Upload
-                        </Button>
-                    </Upload> */}
+                    <Uploader/>
                 </div>
                 <div>
                     <Avatar style={{ marginLeft: 30, verticalAlign: "middle" }} size={80} icon="user"
