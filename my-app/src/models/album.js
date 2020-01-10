@@ -23,7 +23,7 @@ const Model = {
       yield put({
         type: 'saveAlbum',  //下面要使用的方法
         payload: data,      //该方法的参数
-      });
+      }); 
     },
 
     *fetchPlaceAlbum({ payload }, { call, put }) {

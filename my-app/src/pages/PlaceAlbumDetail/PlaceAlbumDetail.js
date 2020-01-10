@@ -4,20 +4,21 @@ import router from 'umi/router'
 import { Button, Avatar, Card } from 'antd'
 import { connect } from 'dva'
 
-@connect(({ album, user }) => ({
+@connect(({ album, user,trip }) => ({
     album,
     user,
+    trip
 }))
 
 export default class PlaceAlbumDetail extends Component {
     componentDidMount() {
-        const { dispatch } = this.props;
+        const { dispatch, user:{user_id}, trip:{place_record}} = this.props;
 
         dispatch({
             type: 'album/fetchPlaceAlbum',
             payload: {
-                user_id: 1,
-                shoot_place: "wuhan",
+                user_id: user_id,
+                shoot_place: place_record,
             }
         });
 

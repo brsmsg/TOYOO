@@ -41,8 +41,8 @@ export async function login(params){
   console.log(params);
   const response={
       user_id: "1",
-      nick_name: "KBH",
-      avater: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578560114173&di=01ce80031477c40e7758bee4c7fd6c68&imgtype=0&src=http%3A%2F%2Fpic1.zhimg.com%2F50%2Fv2-d5d077f05fdaadf654ab43c85ccd7db2_hd.jpg",
+      nick_name: "KANG BAIHAN",
+      avatar: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578560114173&di=01ce80031477c40e7758bee4c7fd6c68&imgtype=0&src=http%3A%2F%2Fpic1.zhimg.com%2F50%2Fv2-d5d077f05fdaadf654ab43c85ccd7db2_hd.jpg",
       current_distance: "20",
       distance: "50",
       total_time: "200",
@@ -119,22 +119,22 @@ export async function getRecentTrip(params){
     userList:[
       {
         user_id:1,
-        nick_name:"kangbaihan",
+        nick_name:"KANG BAIHAN",
         avatar:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578560114173&di=01ce80031477c40e7758bee4c7fd6c68&imgtype=0&src=http%3A%2F%2Fpic1.zhimg.com%2F50%2Fv2-d5d077f05fdaadf654ab43c85ccd7db2_hd.jpg",
       },
       {
         user_id:2,
-        nick_name:"heixiaoniu",
+        nick_name:"HE MIAO",
         avatar:"https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=612723378,2699755568&fm=111&gp=0.jpg",
       },
       {
         user_id:3,
-        nick_name:"zhengpingping",
+        nick_name:"ZHENG PINGPING",
         avatar:"https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=378824344,1185609431&fm=26&gp=0.jpg",
       },
       {
         user_id:4,
-        nick_name:"huangjiarong",
+        nick_name:"HUANG JIARONG",
         avatar:"https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=807400438,1244204492&fm=111&gp=0.jpg",
       },
       {
@@ -241,7 +241,7 @@ export async function queryUser(params){
   return(
     {
       user_id: "1",
-      nick_name: "kangbaihan",
+      nick_name: "kANGBAIHAN",
       avater: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578560114173&di=01ce80031477c40e7758bee4c7fd6c68&imgtype=0&src=http%3A%2F%2Fpic1.zhimg.com%2F50%2Fv2-d5d077f05fdaadf654ab43c85ccd7db2_hd.jpg",
       current_distance: "20",
       distance: "50",
