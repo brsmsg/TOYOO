@@ -10,16 +10,6 @@ import { connect } from 'dva'
 }))
 
 export default class HomePage extends Component {
-    componentDidMount() {
-        // const { dispatch } = this.props;
-
-        // dispatch({
-        //     type: 'user/fetchUser',
-        //     payload: {
-        //         user_id: 1
-        //     }
-        // });
-    }
 
     state = { visible: false,input_value:"" };
 

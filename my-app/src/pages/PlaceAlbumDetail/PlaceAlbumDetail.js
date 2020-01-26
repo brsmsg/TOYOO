@@ -33,6 +33,7 @@ export default class PlaceAlbumDetail extends Component {
 
     render() {
         const { album: { albumList }, user: { user_record,currentUser } } = this.props;
+        const imp = "旅行，只需要一颗安静的心和不停的脚步，不停地遇见，不停地思考，不停地流逝自己的思想，不停地更新自己的记忆。我是在旅行，孤独是自我，却思考着我的灵魂。"
         return (
             <div className={styles.body}>
                 <div style={{ marginLeft: 100 }}>
@@ -72,7 +73,7 @@ export default class PlaceAlbumDetail extends Component {
                         <img src="http://121.199.21.183:8080/upload/about.png" />
                         <Card className={styles.card}>
                             <p style={{ color: "white", fontSize: 20 }}>
-                                {currentUser.content}
+                                {imp}
                             </p>
                         </Card>
                     </div>
